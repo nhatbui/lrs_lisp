@@ -2,12 +2,12 @@
 
 #! /usr/local/bin/clisp
 
-(defun suffixarray (start str indices) 
-    (setq pos (position #\Space str :start start))
+(defun findall (char str start indices) 
+    (setq pos (position char str :start start))
     (if pos
-        (suffixarray (1+ pos) str (append indices (list pos)))
+        (findall char  str (1+ pos) (append indices (list pos)))
         indices)
 )
 
 (setq s (read-line))
-(print (suffixarray 0 s ()))
+(print (findall #\Space s 0 ()))
