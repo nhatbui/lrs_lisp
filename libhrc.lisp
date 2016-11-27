@@ -10,4 +10,6 @@
 )
 
 (setq s (read-line))
-(print (findall #\Space s 0 ()))
+(setq indices (findall #\Space s 0 ()))
+(print
+    (sort indices #'(lambda (x y) (string< (substring s x) (substring s y)))))
