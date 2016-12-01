@@ -86,22 +86,33 @@
         NIL)
 )
 
-(defun _findlrs (suffixes tokens positions lrs)
-    ;; Find the longest repeating substring for this suffix array
+(defun lcsfromsuffixes (suffixes tokens)
     (let ((suffix1 (first suffixes))
           (suffix2 (second suffixes)))
-         (let ((lcs (findlcs (subseq tokens (first suffix1)) (subseq tokens (first suffix2)))))
-              (let ((lcslen (tokenseqlength lcs))
-                    (p1 (nth (first suffix1) positions))
-                    (p2 (nth (first suffix2) positions)))
-                   (if (and lcs
-                            (> lcslen (tokenseqlength lrs))
-                            (checkconsecutive lcslen p1 p2))
-                       (setq lrs lcs))
-                   (if (> (list-length suffixes) 1)
-                       lrs
-                       (_findlrs (cdr suffixes) (cdr positions) lrs)))))
+         (findlcs (subseq tokens (first suffix1)) (subseq tokens (first suffix2))))
 )
+
+
+(defun checklrs (suffixes tokens positions lrs)
+    (let ((lcs (lcsfromsuffixes suffixes tokens)))
+         (let ((lcslen (tokenseqlength lcs))
+               (p1 (nth (first (first suffixes)) positions))
+               (p2 (nth (first (second suffixes)) positions)))
+              (if (and lcs
+                       (> lcslen (tokenseqlength lrs))
+                       (checkconsecutive lcslen p1 p2))
+                  lcs
+                  lrs)))
+)
+
+(defun _findlrs (suffixes tokens positions lrs)
+    ;; Find the longest repeating substring for this suffix array
+    (let ((lrs (checklrs suffixes tokens positions lrs)))
+         (if (> (list-length suffixes) 1)
+             lrs
+             (_findlrs (cdr suffixes) tokens (cdr positions) lrs)))
+)
+
 
 (defun findlrs (suffixes tokens positions)
     (_findlrs suffixes tokens positions NIL)
