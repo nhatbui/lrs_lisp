@@ -81,7 +81,7 @@
 )
 
 (defun checkconsecutive (lcslen p1 p2)
-    (if (= lcslen (- p1 p2))
+    (if (= lcslen (abs (- p1 p2)))
         T
         NIL)
 )
@@ -108,11 +108,10 @@
 (defun _findlrs (suffixes tokens positions lrs)
     ;; Find the longest repeating substring for this suffix array
     (let ((lrs (checklrs suffixes tokens positions lrs)))
-         (if (> (list-length suffixes) 1)
+         (if (<= (list-length suffixes) 2)
              lrs
-             (_findlrs (cdr suffixes) tokens (cdr positions) lrs)))
+             (_findlrs (cdr suffixes) tokens positions lrs)))
 )
-
 
 (defun findlrs (suffixes tokens positions)
     (_findlrs suffixes tokens positions NIL)
