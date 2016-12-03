@@ -125,5 +125,5 @@
            (strpos (append (list 0) (mapcar #'1+ (findall #\Space s)))))
           (let ((tokenidx (range (length tokens))))
                (let ((suffixarray (makesuffixarray tokenidx tokens)))
-                    (print (findlrs suffixarray tokens strpos))))))
+                    (print (join (findlrs suffixarray tokens strpos) (list #\Space)))))))
 
