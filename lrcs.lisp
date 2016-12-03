@@ -4,9 +4,9 @@
 
 (defun _split-sequence (char str start indices) 
     (let ((pos (position char str :start start)))
-         (if pos
-            (_split-sequence char str (1+ pos) (append indices (list (substring str start pos))))
-            (append indices (list (substring str start)))))
+         (if (not pos)
+            (append indices (list (substring str start)))
+            (_split-sequence char str (1+ pos) (append indices (list (substring str start pos))))))
 )
 
 (defun split-sequence (char str)
@@ -15,9 +15,9 @@
 
 (defun _findall (char str start indices)
     (let ((pos (position char str :start start)))
-         (if pos
-             (_findall char str (1+ pos) (append indices (list pos)))
-             indices))
+         (if (not pos)
+             indices
+             (_findall char str (1+ pos) (append indices (list pos)))))
 )
 
 (defun findall (char str)
@@ -25,9 +25,9 @@
 )
 
 (defun _join (str-seq char result)
-    (if str-seq
-        (_join (rest str-seq) char (concatenate 'string result char (car str-seq)))
-        result)
+    (if (not str-seq)
+        result
+        (_join (rest str-seq) char (concatenate 'string result char (car str-seq))))
 )
 
 (defun join (str-seq char)
@@ -56,9 +56,9 @@
 )
 
 (defun _tokenseqlength (seq count)
-    (if seq
-        (_tokenseqlength (cdr seq) (+ count (length (car seq)) 1))
-        count)
+    (if (not seq)
+        count
+        (_tokenseqlength (cdr seq) (+ count (length (car seq)) 1)))
 )
 
 (defun tokenseqlength (seq)
@@ -111,9 +111,9 @@
 )
 
 (defun _range (count i l)
-    (if (> count 0) 
-        (_range (1- count) (1+ i) (append l (list i)))
-        l)
+    (if (<= count 0) 
+        l
+        (_range (1- count) (1+ i) (append l (list i))))
 )
 
 (defun range (count)
