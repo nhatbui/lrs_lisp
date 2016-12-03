@@ -20,7 +20,7 @@ teststring="wrapped at start simple repeat simple repeat simple repeat and at th
 echo $teststring
 echo $teststring | ./lrcs.lisp
 
-teststring="simple repeat simple repeat simple repeat."
+teststring="simple repeat simple repeat simple repeat. <-- Look how the period affects this."
 echo $teststring
 echo $teststring | ./lrcs.lisp
 
