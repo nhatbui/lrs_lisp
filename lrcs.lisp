@@ -122,8 +122,7 @@
 
 (let ((s (read-line))) 
      (let ((tokens (split-sequence #\Space s))
-           (strpos (findall #\Space s)))
-          (setq strpos (append (list 0) (mapcar #'1+ strpos)))
+           (strpos (append (list 0) (mapcar #'1+ (findall #\Space s)))))
           (let ((tokenidx (range (length tokens))))
                (let ((suffixarray (makesuffixarray tokenidx tokens)))
                     (print (findlrs suffixarray tokens strpos))))))
