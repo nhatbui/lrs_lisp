@@ -51,15 +51,8 @@
     (_seq< seq1 seq2 0)
 )
 
-(defun makesuffixes (itemslist suffixes)
-    (if itemslist 
-        (makesuffixes (rest itemslist) (append suffixes (list itemslist)))
-        suffixes)
-)
-
 (defun makesuffixarray (tokenindices tokens)
-    (let ((suffixes (makesuffixes tokenindices ())))
-         (sort suffixes #'(lambda (x y) (seq< x y)) :key #'(lambda (x) (subseq tokens (first x)))))
+     (sort tokenindices #'(lambda (x y) (seq< x y)) :key #'(lambda (x) (subseq tokens x)))
 )
 
 (defun _tokenseqlength (seq count)
@@ -89,15 +82,15 @@
 (defun lcsfromsuffixes (suffixes tokens)
     (let ((suffix1 (first suffixes))
           (suffix2 (second suffixes)))
-         (findlcs (subseq tokens (first suffix1)) (subseq tokens (first suffix2))))
+         (findlcs (subseq tokens suffix1) (subseq tokens suffix2)))
 )
 
 
 (defun checklrs (suffixes tokens positions lrs)
     (let ((lcs (lcsfromsuffixes suffixes tokens)))
          (let ((lcslen (tokenseqlength lcs))
-               (p1 (nth (first (first suffixes)) positions))
-               (p2 (nth (first (second suffixes)) positions)))
+               (p1 (nth (first suffixes) positions))
+               (p2 (nth (second suffixes) positions)))
               (if (and lcs
                        (> lcslen (tokenseqlength lrs))
                        (checkconsecutive lcslen p1 p2))
