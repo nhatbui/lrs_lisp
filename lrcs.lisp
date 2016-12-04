@@ -27,11 +27,11 @@
 (defun _join (str-seq char result)
     (if (not str-seq)
         result
-        (_join (rest str-seq) char (concatenate 'string result char (car str-seq))))
+        (_join (rest str-seq) char (concatenate 'string result char (first str-seq))))
 )
 
 (defun join (str-seq char)
-    (_join (rest str-seq) char (car str-seq))
+    (_join (rest str-seq) char (first str-seq))
 )
 
 (defun _seq< (seq1 seq2 index)
@@ -44,7 +44,7 @@
          (cond
              ((string< s1 s2) index)
              ((string> s1 s2) NIL)
-             ((string= s1 s2) (_seq< (cdr seq1) (cdr seq2) (1+ index)))))
+             ((string= s1 s2) (_seq< (rest seq1) (rest seq2) (1+ index)))))
 )
 
 (defun seq< (seq1 seq2)
@@ -58,7 +58,7 @@
 (defun _tokenseqlength (seq count)
     (if (not seq)
         count
-        (_tokenseqlength (cdr seq) (+ count (length (car seq)) 1)))
+        (_tokenseqlength (rest seq) (+ count (length (first seq)) 1)))
 )
 
 (defun tokenseqlength (seq)
