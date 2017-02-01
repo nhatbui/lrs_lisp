@@ -1,5 +1,3 @@
-#! /usr/local/bin/clisp
-
 ;;; (c) 2016 Nhat Bui
 
 (defun _findLongest (li best)
